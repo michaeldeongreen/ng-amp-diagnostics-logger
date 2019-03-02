@@ -78,4 +78,4 @@ If *_isInitialized* is false, the service will log a warning to the JavaScript c
 
 Copyright (c) Microsoft Corporation. All rights reserved.
 
-Licensed under the [MIT](https://github.com/michaeldeongreen/ng-amp-diagnostics-logger/blob/master/LICENSE.txt) License.
+Licensed under the [MIT](https://github.com/michaeldeongreen/ng-amp-diagnostics-logger/blob/master/projects/ng-amp-diagnostics-logger/LICENSE.txt) License.
