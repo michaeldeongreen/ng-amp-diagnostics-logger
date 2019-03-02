@@ -2,10 +2,6 @@
 
 ng-amp-diagnostics-logger is a package that sends Azure Media Player telemetry information to Azure Application Insights in a Angular application.  ng-amp-diagnostics-logger is a TypeScript conversion of the [amp-diagnosticsLogger.js](https://github.com/Azure-Samples/media-services-javascript-azure-media-player-diagnostic-logger-plugin/blob/master/amp-diagnosticsLogger.js) JavaScript library.
 
-## npm package
-
-You can find the official npm package [here](https://www.npmjs.com/package/ng-amp-diagnostics-logger)
-
 ## Install
 
 ```bash
@@ -43,7 +39,7 @@ const ngAmpDiagnosticsLoggerConfiguration: NgAmpDiagnosticsLoggerConfiguration =
 this.ngAmpDiagnosticsLoggerService.log('SOME UNIQUE STRING');    
 ```
 
-Full sample and documentation can be found [here](https://github.com/michaeldeongreen/ng-amp-diagnostics-logger/tree/master/samples/angular-amp-appinsights-demo)
+Full sample and documentation can be found [here](https://github.com/michaeldeongreen/ng-amp-diagnostics-logger/tree/master/projects/ng-amp-diagnostics-logger/samples/angular-amp-appinsights-demo)
 
 ## NgAmpDiagnosticsLoggerService Dependencies:
 * [applicationinsights-js](https://www.npmjs.com/package/applicationinsights-js)

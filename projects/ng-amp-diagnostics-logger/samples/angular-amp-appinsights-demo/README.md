@@ -28,4 +28,4 @@ docker build -t angular-amp-appinsights-demo . \
 
 Copyright (c) Microsoft Corporation. All rights reserved.
 
-Licensed under the [MIT](https://github.com/michaeldeongreen/ng-amp-diagnostics-logger/blob/master/samples/angular-amp-appinsights-demo/LICENSE.txt) License.
+Licensed under the [MIT](https://github.com/michaeldeongreen/ng-amp-diagnostics-logger/blob/master/projects/ng-amp-diagnostics-logger/samples/angular-amp-appinsights-demo/LICENSE.txt) License.
