@@ -1,0 +1,16 @@
+{
+  "name": "ng-amp-diagnostics-logger",
+  "version": "1.2.0",
+  "description": "ng-amp-diagnostics-logger is a package that sends Azure Media Player telemetry information to Azure Application Insights in a Angular application",
+  "author": "Michael D. Green <michaeldeongreen@gmail.com> (https://blog.michaeldeongreen.com)",
+  "license": "MIT License",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/michaeldeongreen/ng-amp-diagnostics-logger.git"
+  },
+  "peerDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0",
+    "applicationinsights-js": "^1.0.20"
+  }
+}
