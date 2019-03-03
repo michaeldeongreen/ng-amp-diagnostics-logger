@@ -49,6 +49,8 @@ Full sample and documentation can be found [here](https://github.com/michaeldeon
 
 ## Components
 
+* ng-amp-diagnostics-logger comes with it's own copy of [azuremediaplayer.d.ts](https://github.com/Azure-Samples/media-services-javascript-azure-media-subclipper-plugin/blob/master/AMVE/azuremediaplayer.d.ts).
+
 **NgAmpDiagnosticsLoggerConfiguration** - This interface is used to initialize the *NgAmpDiagnosticsLoggerService* Service when a Angular Component is ready to use the service.  The interface has 3 properties:
 
 * appName - The name of the application that is using the *NgAmpDiagnosticsLoggerService* service.  This can be set to any value.

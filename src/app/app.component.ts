@@ -13,7 +13,7 @@ import { NgAmpDiagnosticsLoggerService, NgAmpDiagnosticsLoggerConfiguration } fr
  * Application Insights.
  */
 export class AppComponent implements AfterViewInit, OnInit {
-  title = 'angular7-amp-appinsights-demo';
+  title = 'ng-amp-diagnostics-logger';
   private player: amp.Player; // azuremediaplayer.d.ts object.  See Azure Media Player documentation for details.
   public Mezzanines: Mezzanine[];
 
