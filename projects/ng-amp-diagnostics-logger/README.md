@@ -74,6 +74,7 @@ If *_isInitialized* is false, the service will log a warning to the JavaScript c
 * **Custom Callback** - In the future, it may be beneficial to make the *callback* variable a property in the *NgAmpDiagnosticsLoggerService* interface to allow for custom code for logging.
 * **Configurable Console Logging** - In the future, it may be benefical to add a new property to the *AmpDiagnosticsLoggerConfiguration* interface that can be used to turn on/off console logging in the *NgAmpDiagnosticsLoggerService* Service.  
 * **Configure Events** - In the future, it may be beneficial to make configurable which Azure Media Player Events are sent to Application Insights.
+* **Set Multiple Application Insights Fields** - In the future, it would be beneficial to be able to set more than just the Application Insights *User Id* field.
 
 ## External Resources
 [How to send Azure Media Player Telemetry Information to Azure Application Insights in a Angular 7 Application](https://blog.michaeldeongreen.com/post/how-to-send-azure-media-player-telemetry-information-to-azure-application-insights-in-a-angular-7-application)
