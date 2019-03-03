@@ -47,10 +47,14 @@ this.ngAmpDiagnosticsLoggerService.log('SOME UNIQUE STRING');
 Full sample and documentation can be found [here](https://github.com/michaeldeongreen/ng-amp-diagnostics-logger/tree/master/projects/ng-amp-diagnostics-logger/samples/angular-amp-appinsights-demo)
 
 ## NgAmpDiagnosticsLoggerService Dependencies:
+
 * [applicationinsights-js](https://www.npmjs.com/package/applicationinsights-js)
+* [azuremediaplayer.d.ts](https://github.com/Azure-Samples/media-services-javascript-azure-media-subclipper-plugin/blob/master/AMVE/azuremediaplayer.d.ts)
 * [azuremediaplayer.min.js](https://amp.azure.net/libs/amp/latest/azuremediaplayer.min.js)
 
 ## Components
+
+* ng-amp-diagnostics-logger comes with it's own copy of [azuremediaplayer.d.ts](https://github.com/Azure-Samples/media-services-javascript-azure-media-subclipper-plugin/blob/master/AMVE/azuremediaplayer.d.ts).
 
 **NgAmpDiagnosticsLoggerConfiguration** - This interface is used to initialize the *NgAmpDiagnosticsLoggerService* Service when a Angular Component is ready to use the service.  The interface has 3 properties:
 
