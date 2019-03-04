@@ -10,7 +10,7 @@
 * https://www.npmjs.com/package/applicationinsights-js
 */
 
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { AppInsights } from 'applicationinsights-js';
 import { NgAmpDiagnosticsLoggerConfiguration } from './ng-amp-diagnostics-logger.models';
 
@@ -18,7 +18,7 @@ import { NgAmpDiagnosticsLoggerConfiguration } from './ng-amp-diagnostics-logger
 @Injectable({
   providedIn: 'root',
 })
-export class NgAmpDiagnosticsLoggerService implements OnInit {
+export class NgAmpDiagnosticsLoggerService implements OnInit, OnDestroy {
   private _amp = amp;
   private _appName: string;
   private _ngAmpDiagnosticsLoggerConfiguration: NgAmpDiagnosticsLoggerConfiguration;
@@ -29,9 +29,20 @@ export class NgAmpDiagnosticsLoggerService implements OnInit {
   private _player: amp.Player;
   private _uniqueIdentifier: string;
 
+  /**
+   * Setting global variables that handle state of instance
+   */
   ngOnInit() {
     this._isConfigured = false;
     this._isInitialized = false;
+  }
+
+
+  /**
+   * Remove all event listeners
+   */
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 
   /**
@@ -345,5 +356,27 @@ export class NgAmpDiagnosticsLoggerService implements OnInit {
       presentationTimeInSec: event.presentationTimeInSec,
       message: event.message ? event.message : '',
     };
+  }
+
+  /**
+   * unsubscribe method is used to remove all event listeners that were registered on the player object.
+   * This method is called when ngDestroy of the component is called.
+   */
+  private unsubscribe(): void {
+    if(this._isInitialized && this._isConfigured) {
+      this._player.removeEventListener(this._amp.eventName.error);
+      this._player.removeEventListener(this._amp.eventName.loadedmetadata);
+      this._player.removeEventListener(this._amp.eventName.playbackbitratechanged);
+      this._player.removeEventListener(this._amp.eventName.downloadbitratechanged);
+      this._player.removeEventListener(this._amp.eventName.play);
+      this._player.removeEventListener(this._amp.eventName.playing);
+      this._player.removeEventListener(this._amp.eventName.seeking);
+      this._player.removeEventListener(this._amp.eventName.seeked);
+      this._player.removeEventListener(this._amp.eventName.pause);
+      this._player.removeEventListener(this._amp.eventName.waiting);
+      this._player.removeEventListener(this._amp.eventName.fullscreenchange);
+      this._player.removeEventListener(this._amp.eventName.canplaythrough);
+      this._player.removeEventListener(this._amp.eventName.ended);
+    }
   }
 }
