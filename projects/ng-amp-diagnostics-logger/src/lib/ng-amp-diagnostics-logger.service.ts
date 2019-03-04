@@ -10,7 +10,7 @@
 * https://www.npmjs.com/package/applicationinsights-js
 */
 
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { AppInsights } from 'applicationinsights-js';
 import { NgAmpDiagnosticsLoggerConfiguration } from './ng-amp-diagnostics-logger.models';
 
@@ -18,7 +18,7 @@ import { NgAmpDiagnosticsLoggerConfiguration } from './ng-amp-diagnostics-logger
 @Injectable({
   providedIn: 'root',
 })
-export class NgAmpDiagnosticsLoggerService implements OnInit {
+export class NgAmpDiagnosticsLoggerService implements OnInit, OnDestroy {
   private _amp = amp;
   private _appName: string;
   private _ngAmpDiagnosticsLoggerConfiguration: NgAmpDiagnosticsLoggerConfiguration;
@@ -29,9 +29,20 @@ export class NgAmpDiagnosticsLoggerService implements OnInit {
   private _player: amp.Player;
   private _uniqueIdentifier: string;
 
+  /**
+   * Setting global variables that handle state of instance
+   */
   ngOnInit() {
     this._isConfigured = false;
     this._isInitialized = false;
+  }
+
+
+  /**
+   * Remove all event listeners
+   */
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 
   /**
@@ -162,37 +173,11 @@ export class NgAmpDiagnosticsLoggerService implements OnInit {
     this._player.addEventListener(this._amp.eventName.ended, this.handleEnded.bind(this));
 
     if (this._player.audioBufferData()) {
-      this._player.audioBufferData().addEventListener(this._amp.bufferDataEventName.downloadfailed, function() {
-        const data = {
-          appName: this._appName,
-          uniqueIdentifier: this._uniqueIdentifier,
-          sessionId: this._player.currentSrc(),
-          currentTime: this._player.currentTime(),
-          bufferLevel: this._player.audioBufferData().bufferLevel,
-          url: this._player.audioBufferData().downloadFailed.mediaDownload.url,
-          code: '0x' + this._player.audioBufferData().downloadFailed.code.toString(16),
-          message: this._player.audioBufferData().downloadFailed,
-        };
-
-        this.logData('DownloadFailed', 0, data);
-      });
+      this._player.audioBufferData().addEventListener(this._amp.bufferDataEventName.downloadfailed, this.handleAudioDownloadFailed.bind(this));
     }
 
     if (this._player.videoBufferData()) {
-      this._player.videoBufferData().addEventListener(this._amp.bufferDataEventName.downloadfailed, function() {
-        const data = {
-          appName: this._appName,
-          uniqueIdentifier: this._uniqueIdentifier,
-          sessionId: this._player.currentSrc(),
-          currentTime: this._player.currentTime(),
-          bufferLevel: this._player.videoBufferData().bufferLevel,
-          url: this._player.videoBufferData().downloadFailed.mediaDownload.url,
-          code: '0x' + this._player.videoBufferData().downloadFailed.code.toString(16),
-          message: this._player.videoBufferData().downloadFailed,
-        };
-
-        this.logData('DownloadFailed', 0, data);
-      });
+      this._player.videoBufferData().addEventListener(this._amp.bufferDataEventName.downloadfailed, this.handleVideoDownloadFailed.bind(this));
     }
 
     const data = {
@@ -207,6 +192,42 @@ export class NgAmpDiagnosticsLoggerService implements OnInit {
     };
 
     this.logData('PresentationInfo', 1, data);
+  }
+
+  /**
+   * handleAudioDowloadFailed handles the AMP downloadFailed for audio
+   */
+  private handleAudioDownloadFailed(): void {
+    const data = {
+      appName: this._appName,
+      uniqueIdentifier: this._uniqueIdentifier,
+      sessionId: this._player.currentSrc(),
+      currentTime: this._player.currentTime(),
+      bufferLevel: this._player.audioBufferData().bufferLevel,
+      url: this._player.audioBufferData().downloadFailed.mediaDownload.url,
+      code: '0x' + this._player.audioBufferData().downloadFailed.code.toString(16),
+      message: this._player.audioBufferData().downloadFailed,
+    };
+
+    this.logData('DownloadFailed', 0, data)
+  }
+
+  /**
+   * handleVideoDownloadFailed handles the AMP downloadFailed for video
+   */
+  private handleVideoDownloadFailed(): void {
+    const data = {
+      appName: this._appName,
+      uniqueIdentifier: this._uniqueIdentifier,
+      sessionId: this._player.currentSrc(),
+      currentTime: this._player.currentTime(),
+      bufferLevel: this._player.videoBufferData().bufferLevel,
+      url: this._player.videoBufferData().downloadFailed.mediaDownload.url,
+      code: '0x' + this._player.videoBufferData().downloadFailed.code.toString(16),
+      message: this._player.videoBufferData().downloadFailed,
+    };
+
+    this.logData('DownloadFailed', 0, data);
   }
 
   /**
@@ -345,5 +366,29 @@ export class NgAmpDiagnosticsLoggerService implements OnInit {
       presentationTimeInSec: event.presentationTimeInSec,
       message: event.message ? event.message : '',
     };
+  }
+
+  /**
+   * unsubscribe method is used to remove all event listeners that were registered on the player object.
+   * This method is called when ngDestroy of the component is called.
+   */
+  private unsubscribe(): void {
+    if(this._isInitialized && this._isConfigured) {
+      this._player.removeEventListener(this._amp.eventName.error)
+      this._player.removeEventListener(this._amp.eventName.loadedmetadata)
+      this._player.removeEventListener(this._amp.eventName.playbackbitratechanged)
+      this._player.removeEventListener(this._amp.eventName.downloadbitratechanged)
+      this._player.removeEventListener(this._amp.eventName.play)
+      this._player.removeEventListener(this._amp.eventName.playing)
+      this._player.removeEventListener(this._amp.eventName.seeking)
+      this._player.removeEventListener(this._amp.eventName.seeked)
+      this._player.removeEventListener(this._amp.eventName.pause)
+      this._player.removeEventListener(this._amp.eventName.waiting)
+      this._player.removeEventListener(this._amp.eventName.fullscreenchange)
+      this._player.removeEventListener(this._amp.eventName.canplaythrough)
+      this._player.removeEventListener(this._amp.eventName.ended)
+      this._player.audioBufferData().removeEventListener(this._amp.bufferDataEventName.downloadfailed, this.handleAudioDownloadFailed.bind(this));
+      this._player.videoBufferData().removeEventListener(this._amp.bufferDataEventName.downloadfailed, this.handleVideoDownloadFailed.bind(this));
+    }
   }
 }
